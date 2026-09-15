@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useProducts } from "@/hooks/useProducts";
 import { Filters } from "@/components/Filters";
 import { ProductGrid } from "@/components/ProductGrid";
@@ -12,17 +12,31 @@ export default function HomePage() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [selected, setSelected] = useState<Product | null>(null);
-
+  const [time, setTime] = useState<string | null>(null);
+  useEffect(() => {
+    setTime(new Date().toLocaleTimeString());
+  }, []);
   const categories = useMemo(() => {
     const unique = new Set(products.map((p) => p.category));
     return ["all", ...Array.from(unique)];
   }, [products]);
 
+
+  // const visibleProducts = products.filter((product) => {
+  //   if (category !== "all") {
+  //     return product.category === category;
+  //   }
+  //   return product.title.includes(search);
+  // });
+
+  const query = search.trim().toLowerCase();
   const visibleProducts = products.filter((product) => {
-    if (category !== "all") {
-      return product.category === category;
-    }
-    return product.title.includes(search);
+    const matchesCategory =
+      category === "all" || product.category === category;
+
+    const matchesSearch = product.title.toLowerCase().includes(query);
+
+    return matchesCategory && matchesSearch;
   });
 
   return (
@@ -30,7 +44,7 @@ export default function HomePage() {
       <header className="mb-6">
         <h1 className="text-3xl font-bold">Product Explorer</h1>
         <p className="text-sm text-slate-500">
-          Last updated at {new Date().toLocaleTimeString()}
+          {time ? `Last updated at ${time}` : " "}
         </p>
       </header>
 
@@ -42,14 +56,25 @@ export default function HomePage() {
         onCategoryChange={setCategory}
       />
 
-      {loading && <p className="mt-8 text-slate-500">Loading products…</p>}
-
-      {/*
-        TODO(candidate): the hook already exposes `error`, but nothing renders it.
-        Show a helpful error state to the user when the request fails.
-      */}
-
-      <ProductGrid products={visibleProducts} onSelect={setSelected} />
+      {loading && (
+        <p className="mt-8 text-slate-500">Loading products…</p>
+      )}
+      {!loading && error && (
+        <div
+          role="alert"
+          className="mt-8 rounded-lg border border-red-200 bg-red-50 p-4"
+        >
+          <h2 className="font-semibold text-red-800">
+            Couldn’t load products
+          </h2>
+          <p className="mt-1 text-sm text-red-700">
+            {error} Please try refreshing the page.
+          </p>
+        </div>
+      )}
+      {!loading && !error && (
+        <ProductGrid products={visibleProducts} onSelect={setSelected} />
+      )}
 
       <ProductModal product={selected} onClose={() => setSelected(null)} />
     </main>
