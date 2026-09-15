@@ -1,23 +1,54 @@
-# Product Explorer — Starter
+# Product Explorer
 
-The full brief is in **[`ASSIGNMENT.md`](./ASSIGNMENT.md)** — read it first.
+A responsive product-browsing app built with Next.js, TypeScript,
+Tailwind CSS, and Framer Motion.
 
-This app **runs, but is intentionally incomplete and contains several bugs.**
-Your job is to find and fix the bugs and complete the two `TODO(candidate)` features.
+## Live Demo
 
-## Quick start
+https://webomindapps-frontend-task.vercel.app/
 
-```bash
-npm install
-npm run dev
-```
+## Features
 
-Open http://localhost:3000. (Node 18.17+.)
+- Responsive product grid with 1, 2, or 3 columns.
+- Case-insensitive title search combined with category filtering.
+- Product detail modal with opening and closing animations.
+- Loading, error, and empty-results states.
 
-Find the two features you need to complete:
 
-```bash
-grep -rn "TODO(candidate)" src/
-```
+## Run Locally
 
-Fill in `NOTES.md` as you go, and commit in small, meaningful steps.
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/PREMKUMAR5519/webomindapps-frontend-task.git
+   cd webomindapps-frontend-task
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm i
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Open http://localhost:3000.
+
+
+## Available Commands
+
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Start the development server |
+| `npm run typecheck` | Check TypeScript types |
+| `npm run lint` | Run lint checks |
+| `npm run build` | Create a production build |
+
+## Implementation Notes
+
+See [NOTES.md](./NOTES.md) for the bugs fixed, completed features,
+implementation decisions, and possible improvements.
