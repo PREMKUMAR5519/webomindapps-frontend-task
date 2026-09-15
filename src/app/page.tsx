@@ -59,14 +59,23 @@ export default function HomePage() {
       {loading && (
         <p className="mt-8 text-slate-500">Loading products…</p>
       )}
-      {/*
-        TODO(candidate): the hook already exposes `error`, but nothing renders it.
-        Show a helpful error state to the user when the request fails.
-      */}
+      {!loading && error && (
+        <div
+          role="alert"
+          className="mt-8 rounded-lg border border-red-200 bg-red-50 p-4"
+        >
+          <h2 className="font-semibold text-red-800">
+            Couldn’t load products
+          </h2>
+          <p className="mt-1 text-sm text-red-700">
+            {error} Please try refreshing the page.
+          </p>
+        </div>
+      )}
       {!loading && !error && (
         <ProductGrid products={visibleProducts} onSelect={setSelected} />
       )}
-     
+
       <ProductModal product={selected} onClose={() => setSelected(null)} />
     </main>
   );
