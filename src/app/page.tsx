@@ -25,12 +25,12 @@ export default function HomePage() {
   //   return product.title.includes(search);
   // });
 
-
+const query = search.trim().toLowerCase();
 const visibleProducts = products.filter((product) => {
   const matchesCategory =
     category === "all" || product.category === category;
 
-  const matchesSearch = product.title.includes(search);
+  const matchesSearch = product.title.toLowerCase().includes(query);
 
   return matchesCategory && matchesSearch;
 });
