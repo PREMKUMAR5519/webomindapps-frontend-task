@@ -44,7 +44,7 @@ export default function HomePage() {
       <header className="mb-6">
         <h1 className="text-3xl font-bold">Product Explorer</h1>
         <p className="text-sm text-slate-500">
-           {time ? `Last updated at ${time}` : " "}
+          {time ? `Last updated at ${time}` : " "}
         </p>
       </header>
 
@@ -56,15 +56,17 @@ export default function HomePage() {
         onCategoryChange={setCategory}
       />
 
-      {loading && <p className="mt-8 text-slate-500">Loading products…</p>}
-
+      {loading && (
+        <p className="mt-8 text-slate-500">Loading products…</p>
+      )}
       {/*
         TODO(candidate): the hook already exposes `error`, but nothing renders it.
         Show a helpful error state to the user when the request fails.
       */}
-
-      <ProductGrid products={visibleProducts} onSelect={setSelected} />
-
+      {!loading && !error && (
+        <ProductGrid products={visibleProducts} onSelect={setSelected} />
+      )}
+     
       <ProductModal product={selected} onClose={() => setSelected(null)} />
     </main>
   );
