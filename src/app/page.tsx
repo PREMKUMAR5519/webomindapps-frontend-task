@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useProducts } from "@/hooks/useProducts";
 import { Filters } from "@/components/Filters";
 import { ProductGrid } from "@/components/ProductGrid";
@@ -12,11 +12,15 @@ export default function HomePage() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [selected, setSelected] = useState<Product | null>(null);
-
+  const [time, setTime] = useState<string | null>(null);
+  useEffect(() => {
+    setTime(new Date().toLocaleTimeString());
+  }, []);
   const categories = useMemo(() => {
     const unique = new Set(products.map((p) => p.category));
     return ["all", ...Array.from(unique)];
   }, [products]);
+
 
   // const visibleProducts = products.filter((product) => {
   //   if (category !== "all") {
@@ -25,22 +29,22 @@ export default function HomePage() {
   //   return product.title.includes(search);
   // });
 
-const query = search.trim().toLowerCase();
-const visibleProducts = products.filter((product) => {
-  const matchesCategory =
-    category === "all" || product.category === category;
+  const query = search.trim().toLowerCase();
+  const visibleProducts = products.filter((product) => {
+    const matchesCategory =
+      category === "all" || product.category === category;
 
-  const matchesSearch = product.title.toLowerCase().includes(query);
+    const matchesSearch = product.title.toLowerCase().includes(query);
 
-  return matchesCategory && matchesSearch;
-});
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-8">
       <header className="mb-6">
         <h1 className="text-3xl font-bold">Product Explorer</h1>
         <p className="text-sm text-slate-500">
-          Last updated at {new Date().toLocaleTimeString()}
+           {time ? `Last updated at ${time}` : " "}
         </p>
       </header>
 
